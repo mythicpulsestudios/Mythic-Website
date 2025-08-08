@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>mythicpulsestudios — Blog</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="topbar" role="navigation" aria-label="Top menu">
+      <div class="nav-left">
+        <button id="menuToggle" class="hamburger" aria-label="Toggle menu">☰</button>
+        <ul id="subMenu" class="sub-menu">
+          <li><a href="#home" data-route>Home</a></li>
+          <li><a href="#about" data-route>About</a></li>
+          <li><a href="#projects" data-route>Projects</a></li>
+          <li><a href="#contact" data-route>Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- centered site name -->
+      <div class="brand" aria-hidden="false">
+        <a href="#home" class="brand-link" data-route>mythicpulsestudios</a>
+      </div>
+
+      <div class="nav-right">
+        <label class="search">
+          <input id="searchInput" type="search" placeholder="Search posts..." aria-label="Search posts">
+        </label>
+      </div>
+    </nav>
+  </header>
+
+  <main id="app" class="container" role="main">
+    <!-- JS will render list or single post here -->
+  </main>
+
+  <footer class="site-footer">
+    <small>© mythicpulsestudios — created with ❤️</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
