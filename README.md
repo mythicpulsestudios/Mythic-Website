@@ -1,2 +1,4 @@
 # Mythic-Website
-my website 
+my website: 
+
+https://mythicpulsestudios.github.io/Mythic-Website/
