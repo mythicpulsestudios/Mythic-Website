@@ -10,12 +10,22 @@
   <header class="site-header">
     <nav class="topbar" role="navigation" aria-label="Top menu">
       <div class="nav-left">
+        <div class="theme-switch-wrapper">
+          <span class="theme-icon">🌙</span>
+          <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider round"></div>
+          </label>
+          <span class="theme-icon">☀️</span>
+        </div>
         <button id="menuToggle" class="hamburger" aria-label="Toggle menu">☰</button>
         <ul id="subMenu" class="sub-menu">
           <li><a href="#home" data-route>Home</a></li>
           <li><a href="#about" data-route>About</a></li>
           <li><a href="#projects" data-route>Projects</a></li>
           <li><a href="#contact" data-route>Contact</a></li>
+          <li><a href="#privacy" data-route>Privacy Policy</a></li>
+          <li><a href="#terms" data-route>Terms of Use</a></li>
         </ul>
       </div>
 
@@ -34,6 +44,16 @@
 
   <main id="app" class="container" role="main">
     <!-- JS will render list or single post here -->
+    <div class="comments-section" id="comments-container">
+      <h3>Comments</h3>
+      <div class="comment-form">
+        <textarea id="comment-input" placeholder="Leave a comment..."></textarea>
+        <button id="submit-comment">Submit</button>
+      </div>
+      <div class="comments-list" id="comments-list">
+        <!-- Comments will be dynamically inserted here -->
+      </div>
+    </div>
   </main>
 
   <footer class="site-footer">

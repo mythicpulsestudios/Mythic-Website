@@ -62,6 +62,52 @@ function init(){
   addEmojiEffects();
   // initial route if any
   handleRoute();
+
+  // Initialize dark mode
+  initThemeToggle();
+  
+  // Initialize comments
+  initComments();
+}
+
+/* Theme Toggle */
+function initThemeToggle() {
+  const checkbox = document.getElementById('checkbox');
+  const currentTheme = localStorage.getItem('theme');
+  
+  if (currentTheme === 'dark') {
+    document.body.classList.add('dark-theme');
+    checkbox.checked = true;
+  }
+  
+  checkbox.addEventListener('change', function() {
+    document.body.classList.toggle('dark-theme');
+    localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+  });
+}
+
+/* Comments System */
+function initComments() {
+  const submitBtn = document.getElementById('submit-comment');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', handleCommentSubmit);
+  }
+}
+
+function handleCommentSubmit() {
+  const input = document.getElementById('comment-input');
+  const commentsList = document.getElementById('comments-list');
+  
+  if (input.value.trim()) {
+    const comment = document.createElement('div');
+    comment.className = 'comment';
+    comment.innerHTML = `
+      <p>${escapeHtml(input.value)}</p>
+      <small>${new Date().toLocaleDateString()}</small>
+    `;
+    commentsList.prepend(comment);
+    input.value = '';
+  }
 }
 
 /* routing: uses hash like #post/id or #home */
@@ -72,6 +118,10 @@ function handleRoute(){
     const post = POSTS.find(p => p.id === id);
     if(post) renderPost(post);
     else renderNotFound();
+  } else if(hash === "#privacy"){
+    window.location.href = "privacy.html";
+  } else if(hash === "#terms"){
+    window.location.href = "terms.html";
   } else if(hash === "#about"){
     renderAbout();
   } else if(hash === "#contact"){
@@ -125,7 +175,8 @@ function cardHtml(p){
 /* Render single post view */
 function renderPost(p){
   document.title = `${p.title} — mythicpulsestudios`;
-  app.innerHTML = `
+  
+  const postHtml = `
     <article class="post-article">
       <div class="post-header">
         <div>
@@ -144,11 +195,28 @@ function renderPost(p){
         ${p.content}
       </section>
 
+      <div class="comments-section" id="comments-container">
+        <h3>Comments</h3>
+        <div class="comment-form">
+          <textarea id="comment-input" placeholder="Leave a comment..."></textarea>
+          <button id="submit-comment" class="btn">Submit</button>
+        </div>
+        <div class="comments-list" id="comments-list">
+          <!-- Comments will be dynamically inserted here -->
+        </div>
+      </div>
+
       <div style="margin-top:18px;">
         <button class="btn" id="backBtn2">← Back to posts</button>
       </div>
     </article>
   `;
+  
+  app.innerHTML = postHtml;
+  
+  // Initialize comments for this post
+  initComments();
+  
   // wire up back buttons
   document.getElementById("backBtn").addEventListener("click", () => history.back());
   document.getElementById("backBtn2").addEventListener("click", () => location.hash = "#home");
