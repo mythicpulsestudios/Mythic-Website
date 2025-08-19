@@ -1,13 +1,3 @@
-/* app.js
-   Simple SPA blog using hash routing.
-   - Index lists posts with excerpts
-   - Clicking a post shows full content and updates hash to #post/slug
-   - Back (and browser back) returns to list
-   - Search filter included
-   - Emoji click effects added (only new feature)
-*/
-
-/* ======= Data: add/modify posts here ======= */
 const POSTS = [
   {
     id: "godot-theme-checker",
@@ -43,7 +33,6 @@ const POSTS = [
   }
 ];
 
-/* ======= Helpers ======= */
 const $ = sel => document.querySelector(sel);
 const $$ = sel => Array.from(document.querySelectorAll(sel));
 const app = $("#app");
@@ -51,26 +40,18 @@ const searchInput = document.getElementById("searchInput");
 const menuToggle = document.getElementById("menuToggle");
 const subMenu = document.getElementById("subMenu");
 
-/* initialize */
 function init(){
-  renderList();              // show list by default
+  renderList();              
   window.addEventListener("hashchange", handleRoute);
   searchInput.addEventListener("input", handleSearch);
   document.body.addEventListener("click", handleDelegate);
   menuToggle.addEventListener("click", toggleMenu);
-  // emoji effects: spawn when clicking buttons or menu links
   addEmojiEffects();
-  // initial route if any
   handleRoute();
-
-  // Initialize dark mode
   initThemeToggle();
-  
-  // Initialize comments
   initComments();
 }
 
-/* Theme Toggle */
 function initThemeToggle() {
   const checkbox = document.getElementById('checkbox');
   const currentTheme = localStorage.getItem('theme');
@@ -86,7 +67,6 @@ function initThemeToggle() {
   });
 }
 
-/* Comments System */
 function initComments() {
   const submitBtn = document.getElementById('submit-comment');
   if (submitBtn) {
@@ -110,7 +90,6 @@ function handleCommentSubmit() {
   }
 }
 
-/* routing: uses hash like #post/id or #home */
 function handleRoute(){
   const hash = location.hash || "#home";
   if(hash.startsWith("#post/")){
@@ -131,7 +110,6 @@ function handleRoute(){
   }
 }
 
-/* Render blog list */
 function renderList(filter=""){
   document.title = "mythicpulsestudios — Blog";
   app.innerHTML = `
@@ -153,7 +131,6 @@ function renderList(filter=""){
   grid.innerHTML = matched.map(p => cardHtml(p)).join("");
 }
 
-/* small card for each post */
 function cardHtml(p){
   return `
     <article class="card" data-id="${p.id}">
@@ -172,7 +149,6 @@ function cardHtml(p){
   `;
 }
 
-/* Render single post view */
 function renderPost(p){
   document.title = `${p.title} — mythicpulsestudios`;
   
@@ -202,7 +178,6 @@ function renderPost(p){
           <button id="submit-comment" class="btn">Submit</button>
         </div>
         <div class="comments-list" id="comments-list">
-          <!-- Comments will be dynamically inserted here -->
         </div>
       </div>
 
@@ -214,15 +189,12 @@ function renderPost(p){
   
   app.innerHTML = postHtml;
   
-  // Initialize comments for this post
   initComments();
   
-  // wire up back buttons
   document.getElementById("backBtn").addEventListener("click", () => history.back());
   document.getElementById("backBtn2").addEventListener("click", () => location.hash = "#home");
 }
 
-/* About page */
 function renderAbout(){
   document.title = "About — mythicpulsestudios";
   app.innerHTML = `
@@ -240,7 +212,6 @@ function renderAbout(){
   `;
 }
 
-/* Contact page */
 function renderContact(){
   document.title = "Contact — mythicpulsestudios";
   app.innerHTML = `
@@ -265,7 +236,6 @@ function renderContact(){
   `;
 }
 
-/* Not found page */
 function renderNotFound(){
   app.innerHTML = `
     <div class="card">
@@ -276,7 +246,6 @@ function renderNotFound(){
   document.getElementById("nfHome").addEventListener("click", () => location.hash = "#home");
 }
 
-/* helpers */
 function formatDate(iso){
   try{
     const d = new Date(iso);
@@ -297,10 +266,7 @@ function handleSearch(e){
   renderList(q);
 }
 function handleDelegate(e){
-  // close menu on small screens if user clicks a sub-menu link
   if(e.target.matches('[data-route]')){
-    // ensure hash change triggers route handling (it will)
-    // close mobile menu
     if(window.innerWidth <= 720) subMenu.style.display = "none";
   }
 }
@@ -309,15 +275,10 @@ function toggleMenu(){
   subMenu.style.display = (current === "none" || current === "") ? "flex" : "none";
 }
 
-/* =========================
-   Emoji Click Effects
-   - spawns emoji at click position for buttons and menu links
-   ========================= */
 function addEmojiEffects(){
   const EMOJIS = ["🎮","🕹️","😄","✨","🔥","🏆","👾","🎯","💥"];
 
   document.addEventListener("click", (e) => {
-    // spawn for .btn clicks, actual <button> elements, hamburger, and data-route links
     if (e.target.closest('.btn') || e.target.closest('button') || e.target.matches('[data-route]') || e.target.closest('[data-route]')) {
       spawnEmojiAt(e.clientX, e.clientY, EMOJIS);
     }
@@ -328,34 +289,27 @@ function spawnEmojiAt(x, y, list){
   const el = document.createElement('span');
   el.className = 'emoji-pop';
   el.textContent = list[Math.floor(Math.random() * list.length)];
-  // random rotation to look lively
-  const rot = (Math.random() * 40) - 20; // -20deg .. +20deg
+  const rot = (Math.random() * 40) - 20;
   el.style.setProperty('--rot', `${rot}deg`);
-  // position near click
   el.style.left = `${x}px`;
   el.style.top = `${y}px`;
   document.body.appendChild(el);
-  // remove after animation
   setTimeout(()=> el.remove(), 950);
 }
 
-/* init on DOM ready */
 document.addEventListener("DOMContentLoaded", init);
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Navigation buttons
     const homeBtn = document.getElementById('homeBtn');
     const blogBtn = document.getElementById('blogBtn');
     const aboutBtn = document.getElementById('aboutBtn');
     const contactBtn = document.getElementById('contactBtn');
 
-    // Sections
     const homeSection = document.getElementById('home');
     const blogSection = document.getElementById('blog');
     const aboutSection = document.getElementById('about');
     const contactSection = document.getElementById('contact');
 
-    // Function to show only one section at a time
     function showSection(section) {
         homeSection.style.display = 'none';
         blogSection.style.display = 'none';
@@ -364,16 +318,13 @@ document.addEventListener('DOMContentLoaded', function () {
         section.style.display = 'block';
     }
 
-    // Default view
     showSection(homeSection);
 
-    // Event listeners for navigation
     homeBtn.addEventListener('click', () => showSection(homeSection));
     blogBtn.addEventListener('click', () => showSection(blogSection));
     aboutBtn.addEventListener('click', () => showSection(aboutSection));
     contactBtn.addEventListener('click', () => showSection(contactSection));
 
-    // BLOG TWO EMBEDDED VIDEO (NEW)
     const blogTwoContainer = document.getElementById('blogTwoContent');
     if (blogTwoContainer) {
         blogTwoContainer.innerHTML += `
@@ -388,7 +339,6 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
     }
 
-    // CONTACT FORM SUBMIT
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function (e) {
