@@ -24,8 +24,6 @@
           <li><a href="#about" data-route>About</a></li>
           <li><a href="#projects" data-route>Projects</a></li>
           <li><a href="#contact" data-route>Contact</a></li>
-          <li><a href="#privacy" data-route>Privacy Policy</a></li>
-          <li><a href="#terms" data-route>Terms of Use</a></li>
         </ul>
       </div>
 
@@ -41,25 +39,28 @@
     </nav>
   </header>
 
-  <main id="app" class="container" role="main">
-    <div class="comments-section" id="comments-container">
-      <h3>Comments</h3>
-      <div class="comment-form">
-        <textarea id="comment-input" placeholder="Leave a comment..."></textarea>
-        <button id="submit-comment">Submit</button>
-      </div>
-      <div class="comments-list" id="comments-list">
+  <main class="container" role="main">
+    <div class="main-content" id="app">
+      <div class="comments-section" id="comments-container">
+        <h3>Comments</h3>
+        <div class="comment-form">
+          <textarea id="comment-input" placeholder="Leave a comment..."></textarea>
+          <button id="submit-comment">Submit</button>
+        </div>
+        <div class="comments-list" id="comments-list">
+        </div>
       </div>
     </div>
+    <aside class="sidebar">
+      <h3>Archive</h3>
+      <ul class="archive-list" id="archiveList"></ul>
+    </aside>
   </main>
 
   <footer class="site-footer">
-    <small>© mythicpulsestudios — created with ❤️</small>
+    <small>© mythicpulsestudios — created with ❤️ | <a href="#privacy" data-route>Privacy Policy</a> | <a href="#terms" data-route>Terms of Use</a></small>
   </footer>
 
-  <script src="app.js"></script>
-</body>
-</html>
   <script src="app.js"></script>
 </body>
 </html>
