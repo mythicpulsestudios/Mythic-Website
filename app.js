@@ -1,5 +1,26 @@
 const POSTS = [
   {
+    id: "horror-game-jam",
+    title: "My Horror Game-Like Jam",
+    date: "2025-09-25",
+    excerpt: "Joined Lyz's Game-Like Jam with a horror-themed Unity game featuring a creepy pumpkin enemy. Explore a cave, solve puzzles, and escape the house!",
+    content: `
+<p>This year, I’ve been diving into game jams, especially the ones hosted by Lyz, also known as Hyper Game Dev. She’s been live-streaming her devlogs for over two years now, and I stumbled across her work while browsing Itch.io. That’s where I discovered her “Game-Like Jams,” which happen every other month. The idea is simple but fun: recreate a classic game like Super Mario or Frogger, but with your own twist. You get to study how the original works, then build your own version from scratch. Lyz even joins in and streams her progress, which makes the whole thing feel like a shared experience.</p>
+
+<p>For September, she picked a horror theme inspired by games like Granny. Since I’m a big fan of horror, I jumped in right away. The jam runs for a month, and at the end, everyone submits their game. Then the community votes on which ones they liked most. I haven’t won yet, but I’m hopeful… maybe one day!</p>
+
+<p>Here's a preview of my game level:</p>
+
+<p><img src="https://i.imgur.com/thxnyyt.png" alt="Game level preview" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(16, 24, 40, 0.1); margin: 16px 0;"></p>
+
+<p>In this post, I want to share what I made for the jam: I kept things pretty simple and built my game in Unity. The enemy is a creepy pumpkin that chases you around. You start off trapped in a cave-like room and have to find a key to unlock the door. Once you escape, you reach the upstairs level of the pumpkin’s house. From there, the goal is to find clues, solve lock codes, and ultimately escape. I focused on creating a key-and-code system to give players something to figure out as they explore.</p>
+
+<p>I kept my game idea pretty simple this time. I built a small level that runs well on my low-end PC, just working with what I had. Even though it wasn’t anything too complex, I’m really proud of how it turned out. I just hope people enjoyed playing it as much as I enjoyed making it.</p>
+
+<p>I’ve just released all my Unity project files for everyone to check out! Feel free to explore, review, and see how everything came together. If you have any questions, feedback, or just want to share your thoughts, drop a comment… I’d love to hear from you and I’m happy to chat!</p>
+    `
+  },
+  {
     id: "godot-theme-checker",
     title: "Godot One Hour Game Jam — Theme Checker",
     date: "2024-12-12",
@@ -57,6 +78,7 @@ function init() {
   document.body.addEventListener("click", handleDelegate);
   menuToggle.addEventListener("click", toggleMenu);
   addEmojiEffects();
+  addStarTrail();
   handleRoute();
   initThemeToggle();
   initUsername();
@@ -64,7 +86,7 @@ function init() {
 
 function initThemeToggle() {
   const checkbox = document.getElementById('checkbox');
-  const currentTheme = localStorage.getItem('theme');
+  const currentTheme = localStorage.getItem('theme') || 'dark';
   
   if (currentTheme === 'dark') {
     document.body.classList.add('dark-theme');
@@ -329,22 +351,28 @@ function renderAbout() {
 function renderContact() {
   document.title = "Contact — mythicpulsestudios";
   app.innerHTML = `
-    <article class="post-article">
-      <h1 class="post-title-big">Contact</h1>
-      <form action="https://formspree.io/f/mwppykrr" method="POST" class="contact-form">
-        <label>Email:<br>
-          <input type="email" name="email" required placeholder="Your email">
-        </label><br><br>
-        <label>Name:<br>
-          <input type="text" name="name" required placeholder="Your name">
-        </label><br><br>
-        <label>Comment:<br>
-          <textarea name="message" rows="6" required placeholder="Write your comment here..."></textarea>
-        </label><br><br>
-        <button class="btn" type="submit">Submit</button>
-      </form>
-      <div style="margin-top:18px;">
-        <button class="btn" onclick="history.back()">← Back</button>
+    <article class="contact-article">
+      <h1 class="post-title-big">Contact Me</h1>
+      <p class="contact-intro">Have a question or want to share feedback? Fill out the form below, and I'll get back to you as soon as possible!</p>
+      <div class="contact-form-container">
+        <form action="https://formspree.io/f/mwppykrr" method="POST" class="contact-form">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="Enter your email">
+          </div>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required placeholder="Enter your name">
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="8" required placeholder="Write your message here..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="submit">Submit</button>
+            <button class="btn" onclick="history.back()">← Back</button>
+          </div>
+        </form>
       </div>
     </article>
   `;
@@ -464,6 +492,28 @@ function spawnEmojiAt(x, y, list) {
   el.style.top = `${y}px`;
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 950);
+}
+
+function addStarTrail() {
+  const maxStars = 5;
+  let starCount = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    if (!document.body.classList.contains('dark-theme')) return;
+
+    if (starCount < maxStars) {
+      const star = document.createElement('span');
+      star.className = 'star-trail';
+      star.style.left = `${e.clientX}px`;
+      star.style.top = `${e.clientY}px`;
+      document.body.appendChild(star);
+      starCount++;
+      setTimeout(() => {
+        star.remove();
+        starCount--;
+      }, 600);
+    }
+  });
 }
 
 document.addEventListener("DOMContentLoaded", init);
